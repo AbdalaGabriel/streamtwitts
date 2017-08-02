@@ -7,6 +7,22 @@ var Twitter = require('node-tweet-stream')
     token_secret: '83Zj1bobqBqXFIDknSsoLyK1i0FyERpSi8b8H4Z35APre'
   })
 
+var five = require("johnny-five");
+var board = new five.Board();
+
+board.on("ready", function() {
+  var led = new five.Led(13);
+
+  // This will grant access to the led instance
+  // from within the REPL that's created when
+  // running this program.
+  this.repl.inject({
+    led: led
+  });
+
+
+
+
 var i = 0;
 t.on('tweet', function (tweet) {
   console.log("----------------------------");
@@ -14,10 +30,22 @@ t.on('tweet', function (tweet) {
   console.log(i);
   i++;
   console.log("----------------------------");
+
+  led.blink(100, stop);
+
+
+  function stop(){
+    console.log("led");
+    led.stop();
+    led.off();
+  }
+
 })
 
 t.on('error', function (err) {
   console.log('Oh no')
 })
 
-t.track('#love');
+t.track('#AnimalesSueltos');
+
+});
